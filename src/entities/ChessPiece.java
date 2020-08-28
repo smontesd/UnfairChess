@@ -2,6 +2,8 @@ package entities;
 
 import javax.swing.ImageIcon;
 
+import game.ChessBoard;
+
 /**
  * This is an abstract class which all the chess board pieces will inherit from
  * 
@@ -22,7 +24,7 @@ public abstract class ChessPiece {
 	}
 	
 	// abstract methods
-	public abstract boolean canMove(int xStart, int yStart);
+	public abstract boolean canMove(ChessBoard board, int xStart, int yStart, int xEnd, int yEnd);
 	
 	// getters and setters
 	public ImageIcon getImage() {
@@ -31,5 +33,13 @@ public abstract class ChessPiece {
 	
 	public void setImage(String filename) {
 		this.icon = new ImageIcon(filename);
+	}
+	
+	public boolean isWhite() {
+		return this.isWhite();
+	}
+	
+	public void setWhite(boolean isWhite) {
+		this.isWhite = isWhite;
 	}
 }

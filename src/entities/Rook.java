@@ -1,5 +1,7 @@
 package entities;
 
+import game.ChessBoard;
+
 /**
  * Concrete class representing a Rook chess piece
  * 
@@ -11,7 +13,20 @@ public class Rook extends ChessPiece {
 		super(isWhite);
 	}
 
-	public boolean canMove(int x, int y) {
-		return true;
+	public boolean canMove(ChessBoard board, int xStart, int yStart, int xEnd, int yEnd) {
+		if (xEnd < 0 || xEnd >= ChessBoard.SIZE || yEnd < 0 || yEnd >= ChessBoard.SIZE) {
+			return false;
+		}
+		
+		int dX = xEnd - xStart;
+		int dY = yEnd - yStart;
+		
+		if (dX == 0 && dY != 0) {
+			
+		} else if (dX != 0 && dY == 0) {
+			
+		}
+		
+		return false;
 	}
 }

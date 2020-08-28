@@ -1,3 +1,7 @@
+import javax.swing.JFrame;
+import commons.Constants;
+import game.ChessBoard;
+
 /**
  * This class is the main executable for the Unfair Chess game
  * 
@@ -9,11 +13,17 @@ public class UnfairChess {
 	
 	
 	/**
-	 * This is the main function which starts the game window
+	 * This function sets up the stage for the game window & initializes the game
 	 * 
 	 * @param args - String of command line arguments
 	 */
 	public static void main(String[] args) {
-		
+		JFrame frame = new JFrame(FRAME_TITLE);
+		frame.setSize(Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.add(new ChessBoard());
+		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
 	}
 }
