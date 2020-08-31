@@ -1,5 +1,8 @@
 package entities;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+
 import javax.swing.ImageIcon;
 
 import game.ChessBoard;
@@ -12,7 +15,7 @@ import game.ChessBoard;
 public abstract class ChessPiece {	
 	// instance variables
 	protected boolean isWhite;
-	private ImageIcon icon;
+	protected ImageIcon icon;
 	
 	/**
 	 * Class Constructor: Initializes each instance member
@@ -27,8 +30,8 @@ public abstract class ChessPiece {
 	public abstract boolean canMove(ChessBoard board, int xStart, int yStart, int xEnd, int yEnd);
 	
 	// getters and setters
-	public ImageIcon getImage() {
-		return this.icon;
+	public Image getImage() {
+		return icon.getImage();
 	}
 	
 	public void setImage(String filename) {
@@ -41,5 +44,47 @@ public abstract class ChessPiece {
 	
 	public void setWhite(boolean isWhite) {
 		this.isWhite = isWhite;
+	}
+	
+	// concrete methods
+	private boolean isForwardsMove(int yStart, int yEnd) {
+		if (isWhite) {
+			if (yEnd < yStart) {
+				return true; 
+			} else if (yEnd > yStart) {
+				return false;
+			}
+		} else {
+			if (yEnd < yStart) {
+				return false;
+			} else if (yEnd > yStart) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private boolean isBackwardsMove(int yStart, int yEnd) {
+		if (!isWhite) {
+			if (yEnd < yStart) {
+				return true; 
+			} else if (yEnd > yStart) {
+				return false;
+			}
+		} else {
+			if (yEnd < yStart) {
+				return false;
+			} else if (yEnd > yStart) {
+				return true;
+			}
+		}
+		
+		// yStart == yEnd in this case
+		return false;
+	}
+	
+	public void draw(Graphics2D g2d, int x, int y) {
+		g2d.drawImage(getImage(), x, y, null);
 	}
 }

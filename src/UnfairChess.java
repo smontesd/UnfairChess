@@ -19,11 +19,9 @@ public class UnfairChess {
 	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame(FRAME_TITLE);
-		frame.setSize(Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-		frame.add(new ChessBoard());
-		frame.setVisible(true);
-		frame.setLocationRelativeTo(null);
+	    frame.getContentPane().add(new ChessBoard());
+	    frame.pack();
+	    frame.setVisible(true);
+	    frame.setResizable(false);
 	}
 }

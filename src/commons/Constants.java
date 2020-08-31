@@ -5,6 +5,10 @@ public class Constants {
 	public static final int BOARD_WIDTH = 800;
 	public static final int BOARD_HEIGHT = 800;
 	
+	// Chess Board constants
+	public static final String BACKGROUND = "src/images/chessboard.png";
+	public static final int SIZE = 8;
+	
 	// Chess Piece constants
 	public static final String ROOK_BLACK = "src/images/rook_black.png";
 	public static final String BISHOP_BLACK = "src/images/bishop_black.png";
@@ -19,4 +23,16 @@ public class Constants {
 	public static final String KING_WHITE = "src/images/king_white.png";
 	public static final String QUEEN_WHITE = "src/images/queen_white.png";
 	public static final String PAWN_WHITE = "src/images/pawn_white.png";
+	
+	// Context constants
+	public static final String FORWARDS_RULE = "On this turn, chess pieces can only move forwards";
+	public static final String BACKWARDS_RULE = "On this turn, chess pieces can only move backwards";
+	public static final String QKNIGHT_RULE = "For one turn, the queen gains the ability to perform a knight move";
+	public static final String PAWN_FWD_RULE = "For one turn, each pawn can attack forwards";
+	public static final String PAWN_EXT_RULE = "For one turn, a pawn can attack with a 2 tile diagonal scope";
+	public static final String BISHOP_ROOK_SWAP = "For the rest of the game, bishops and rooks are swapped";
+	public static final String BOARD_FLIP = "For the rest of the game, the board gets flipped on one side";
+	public static final String BISHOP_GHOST_RULE = "On this turn, bishops can pass through ally chess pieces";
+	public static final String ROOK_GHOST_RULE = "On this turn, rooks can pass through ally chess pieces";
+	public static final String RANDOM_SWAP = "Two pieces are swapped, this change is permanent";
 }
