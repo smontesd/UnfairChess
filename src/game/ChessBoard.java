@@ -52,13 +52,25 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		board[7][0] = new Rook(true);
 		board[7][7] = new Rook(true);
 		
+		// adding knights
+		board[0][1] = new Knight(false);
+		board[0][6] = new Knight(false);
+		board[7][1] = new Knight(true);
+		board[7][6] = new Knight(true);
+		
 		// adding bishops
 		board[0][2] = new Bishop(false);
 		board[0][5] = new Bishop(false);
 		board[7][2] = new Bishop(true);
 		board[7][5] = new Bishop(true);
 		
-		// TODO: Add the remaining chess pieces
+		// adding queens
+		board[0][3] = new Queen(false);
+		board[7][3] = new Queen(true);
+		
+		// TODO: add kings
+		
+		// TODO: add pawns with for loop
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -82,22 +94,30 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		ChessPiece slot = board[yStart][xStart];
 		
 		if (selected == null || selected.isWhite() != currentTurnWhite) {
+			// Consider adding context sabotage rule (also check mouseListener)
 			return false;
 		}
 		
-		if (selected.canMove(this, xStart, yStart, xEnd, yEnd)) {
-			board[yEnd][xEnd] = board[yStart][xStart];
-			board[yStart][xStart] = null;
-			return true;
+		if (!selected.canMove(this, xStart, yStart, xEnd, yEnd)) {
+			return false;
 		}
 		
-		// TODO: Add castling move
-		// Add first move to pawn
-		return false;
+		// TODO: Add special move checks before regular move
+		// TODO: Add Castling move
+		// TODO: Add pawn first move
+		// TODO: Add code when pawn lands on other side of board
+		board[yEnd][xEnd] = board[yStart][xStart];
+		board[yStart][xStart] = null;
+		
+		// TODO: Add gameover if slot isinstance of King
+		// TODO: Add stalemate method or pass turn
+		return true;
 	}
 	
 	public void nextTurn() {
 		currentTurnWhite = !currentTurnWhite;
+		// TODO: get next rule and update board
+		// TODO: check for checkmate and possible moves if any
 	}
 	
 	// setters and getters
@@ -144,16 +164,23 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		
 		selectedX = x;
 		selectedY = y;
-		System.out.println(String.format(Constants.SELECTED_PROMPT, selectedX, selectedY));
+		System.out.println(String.format(Constants.SELECTED_PROMPT,
+				selected.toString(), selectedX, selectedY));
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		// Mouse actions do nothing once game ends
+		if (isGameOver) {
+			return;
+		}
 		int placedX = Math.floorDiv(e.getX(), 100);
 		int placedY = Math.floorDiv(e.getY(), 100);
 					
 		if (move(selectedX, selectedY, placedX, placedY)) {
-			System.out.println(String.format(Constants.PLACED_PROMPT, placedX, placedY));
+			ChessPiece placed = board[placedY][placedX];
+			System.out.println(String.format(Constants.PLACED_PROMPT,
+					placed.toString(), placedX, placedY));
 			nextTurn();
 		}
 					

@@ -81,4 +81,12 @@ public class Bishop extends ChessPiece {
 		return false;
 	}
 	
+	@Override
+	public String toString() {
+		if (isWhite) {
+			return Constants.W_BISHOP;
+		} else {
+			return Constants.B_BISHOP;
+		}
+	}
 }

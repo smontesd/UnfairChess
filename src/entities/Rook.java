@@ -110,4 +110,13 @@ public class Rook extends ChessPiece {
 		// Invalid direction given or no change occurred
 		return false;
 	}
+	
+	@Override
+	public String toString() {
+		if (isWhite) {
+			return Constants.W_ROOK;
+		} else {
+			return Constants.B_ROOK;
+		}
+	}
 }

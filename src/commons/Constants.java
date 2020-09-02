@@ -8,8 +8,8 @@ public class Constants {
 	
 	// Chess Board constants
 	public static final String BACKGROUND = "src/images/chessboard.png";
-	public static final String SELECTED_PROMPT = "Selected: %d, %d";
-	public static final String PLACED_PROMPT = "Placed: %d, %d";
+	public static final String SELECTED_PROMPT = "Selected %s: %d, %d";
+	public static final String PLACED_PROMPT = "Placed %s: %d, %d";
 	public static final int SIZE = 8;
 	
 	// Chess Piece constants
@@ -26,6 +26,23 @@ public class Constants {
 	public static final String KING_WHITE = "src/images/king_white.png";
 	public static final String QUEEN_WHITE = "src/images/queen_white.png";
 	public static final String PAWN_WHITE = "src/images/pawn_white.png";
+	
+	public static final String W_ROOK = "rook (white)";
+	public static final String W_BISHOP = "bishop (white)";
+	public static final String W_KNIGHT = "knight (white)";
+	public static final String W_KING = "king (white)";
+	public static final String W_QUEEN = "queen (white)";
+	public static final String W_PAWN = "pawn (white)";
+	
+	public static final String B_ROOK = "rook (black)";
+	public static final String B_BISHOP = "bishop (black)";
+	public static final String B_KNIGHT = "knight (black)";
+	public static final String B_KING = "king (black)";
+	public static final String B_QUEEN = "queen (black)";
+	public static final String B_PAWN = "pawn (black)";
+	
+	public static final int LONG_L = 2;
+	public static final int SHORT_L = 1;
 	
 	// Context constants
 	public static final String FORWARDS_RULE = "On this turn, chess pieces can only move forwards";
