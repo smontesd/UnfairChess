@@ -4,9 +4,12 @@ public class Constants {
 	// Unfair Chess constants
 	public static final int BOARD_WIDTH = 800;
 	public static final int BOARD_HEIGHT = 800;
+	public static final String FRAME_TITLE = "Unfair Chess";
 	
 	// Chess Board constants
 	public static final String BACKGROUND = "src/images/chessboard.png";
+	public static final String SELECTED_PROMPT = "Selected: %d, %d";
+	public static final String PLACED_PROMPT = "Placed: %d, %d";
 	public static final int SIZE = 8;
 	
 	// Chess Piece constants

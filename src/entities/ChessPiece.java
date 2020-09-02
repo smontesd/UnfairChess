@@ -2,9 +2,7 @@ package entities;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
-
 import javax.swing.ImageIcon;
-
 import game.ChessBoard;
 
 /**
@@ -29,7 +27,7 @@ public abstract class ChessPiece {
 	// abstract methods
 	public abstract boolean canMove(ChessBoard board, int xStart, int yStart, int xEnd, int yEnd);
 	
-	// getters and setters
+	// setters and getters
 	public Image getImage() {
 		return icon.getImage();
 	}
@@ -39,7 +37,7 @@ public abstract class ChessPiece {
 	}
 	
 	public boolean isWhite() {
-		return this.isWhite();
+		return this.isWhite;
 	}
 	
 	public void setWhite(boolean isWhite) {
@@ -47,7 +45,7 @@ public abstract class ChessPiece {
 	}
 	
 	// concrete methods
-	private boolean isForwardsMove(int yStart, int yEnd) {
+	protected boolean isForwardsMove(int yStart, int yEnd) {
 		if (isWhite) {
 			if (yEnd < yStart) {
 				return true; 
@@ -65,7 +63,7 @@ public abstract class ChessPiece {
 		return false;
 	}
 	
-	private boolean isBackwardsMove(int yStart, int yEnd) {
+	protected boolean isBackwardsMove(int yStart, int yEnd) {
 		if (!isWhite) {
 			if (yEnd < yStart) {
 				return true; 
