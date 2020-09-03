@@ -15,7 +15,7 @@ import entities.*;
 
 public class ChessBoard extends JPanel implements MouseListener, MouseMotionListener {
 	// for debugging
-	private static final boolean printEnabled = true;
+	private static final boolean PRINT_ENABLED = true;
 	
 	// instance variables
 	private final Image background;
@@ -47,7 +47,7 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 	    
 	    addMouseListener(this);
 	    
-	    if (printEnabled) {
+	    if (PRINT_ENABLED) {
 	    	System.out.println("White's turn");
 	    }
 	}
@@ -75,7 +75,9 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		board[0][3] = new Queen(false);
 		board[7][3] = new Queen(true);
 		
-		// TODO: add kings
+		// adding kings
+		board[0][4] = new King(false);
+		board[7][4] = new King(true);
 		
 		// adding pawns
 		for (int x = 0; x < Constants.SIZE; x++) {
@@ -102,7 +104,7 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 	
 	public boolean move(int xStart, int yStart, int xEnd, int yEnd) {
 		ChessPiece selected = board[yStart][xStart];
-		ChessPiece slot = board[yStart][xStart];
+		ChessPiece claimed = board[yEnd][xEnd];
 		
 		if (selected == null || selected.isWhite() != currentTurnWhite) {
 			// Consider adding context sabotage rule (also check mouseListener)
@@ -117,6 +119,11 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		board[yEnd][xEnd] = board[yStart][xStart];
 		board[yStart][xStart] = null;
 		
+		if (PRINT_ENABLED) {
+			System.out.println(String.format(Constants.PLACED_PROMPT,
+				selected.toString(), xEnd, yEnd));
+		}
+		
 		if (selected instanceof Pawn) {
 			Pawn p = (Pawn)selected;
 			
@@ -127,21 +134,32 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 			// TODO: Add code when pawn lands on other side of board
 		}
 		
-		// TODO: Add gameover if slot isinstance of King
+		if (claimed instanceof King) {
+			// game is over since king was claimed
+			isGameOver = true;
+			
+			if (PRINT_ENABLED) {
+				System.out.println(currentTurnWhite ? "White wins!" : "Black wins");
+			}
+		}
 		// TODO: Add stalemate method or pass turn
 		return true;
 	}
 	
 	public void nextTurn() {
+		if (isGameOver) {
+			return;
+		}
+		
 		currentTurnWhite = !currentTurnWhite;
 		
-		if (printEnabled) {
+		if (PRINT_ENABLED) {
 			System.out.println(currentTurnWhite ?
 					"White's turn" : "Black's turn");
 		}
 		
 		// TODO: get next rule and update board based on context
-		// TODO: check for checkmate and possible moves if any
+		// TODO: check for draw
 	}
 	
 	public void nextContext() {
@@ -194,7 +212,7 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 			selectedX = x;
 			selectedY = y;
 			
-			if (printEnabled) {
+			if (PRINT_ENABLED) {
 				System.out.println(String.format(Constants.SELECTED_PROMPT,
 					selected.toString(), selectedX, selectedY));
 			}
@@ -211,12 +229,6 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		int placedY = Math.floorDiv(e.getY(), 100);
 					
 		if (move(selectedX, selectedY, placedX, placedY)) {
-			ChessPiece placed = board[placedY][placedX];
-			
-			if (printEnabled) {
-				System.out.println(String.format(Constants.PLACED_PROMPT,
-					placed.toString(), placedX, placedY));
-			}
 			nextTurn();
 		}
 					
