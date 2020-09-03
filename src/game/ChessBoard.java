@@ -14,6 +14,9 @@ import commons.Context;
 import entities.*;
 
 public class ChessBoard extends JPanel implements MouseListener, MouseMotionListener {
+	// for debugging
+	private static final boolean printEnabled = true;
+	
 	// instance variables
 	private final Image background;
 	private ChessPiece[][] board;
@@ -24,7 +27,7 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 	private boolean isGameOver;
 	
 	/**
-	 * Default class constructor: initializes a new board
+	 * Default class constructor: sets up a new ChessBoard
 	 */
 	public ChessBoard() {
 		this.background = new ImageIcon(Constants.BACKGROUND).getImage();
@@ -43,6 +46,10 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 	    setLayout(null);
 	    
 	    addMouseListener(this);
+	    
+	    if (printEnabled) {
+	    	System.out.println("White's turn");
+	    }
 	}
 	
 	public void initializeBoard() {
@@ -70,7 +77,11 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		
 		// TODO: add kings
 		
-		// TODO: add pawns with for loop
+		// adding pawns
+		for (int x = 0; x < Constants.SIZE; x++) {
+			board[1][x] = new Pawn(false);
+			board[6][x] = new Pawn(true);
+		}
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -102,12 +113,19 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 			return false;
 		}
 		
-		// TODO: Add special move checks before regular move
 		// TODO: Add Castling move
-		// TODO: Add pawn first move
-		// TODO: Add code when pawn lands on other side of board
 		board[yEnd][xEnd] = board[yStart][xStart];
 		board[yStart][xStart] = null;
+		
+		if (selected instanceof Pawn) {
+			Pawn p = (Pawn)selected;
+			
+			if (p.getFirstMove() == false) {
+				p.completeFirstMove();
+			}
+			
+			// TODO: Add code when pawn lands on other side of board
+		}
 		
 		// TODO: Add gameover if slot isinstance of King
 		// TODO: Add stalemate method or pass turn
@@ -116,8 +134,18 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 	
 	public void nextTurn() {
 		currentTurnWhite = !currentTurnWhite;
-		// TODO: get next rule and update board
+		
+		if (printEnabled) {
+			System.out.println(currentTurnWhite ?
+					"White's turn" : "Black's turn");
+		}
+		
+		// TODO: get next rule and update board based on context
 		// TODO: check for checkmate and possible moves if any
+	}
+	
+	public void nextContext() {
+		// TODO: get next context from set of values
 	}
 	
 	// setters and getters
@@ -162,10 +190,15 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 			return;
 		}
 		
-		selectedX = x;
-		selectedY = y;
-		System.out.println(String.format(Constants.SELECTED_PROMPT,
-				selected.toString(), selectedX, selectedY));
+		if (selectedX != x || selectedY != y) {
+			selectedX = x;
+			selectedY = y;
+			
+			if (printEnabled) {
+				System.out.println(String.format(Constants.SELECTED_PROMPT,
+					selected.toString(), selectedX, selectedY));
+			}
+		}
 	}
 
 	@Override
@@ -179,8 +212,11 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 					
 		if (move(selectedX, selectedY, placedX, placedY)) {
 			ChessPiece placed = board[placedY][placedX];
-			System.out.println(String.format(Constants.PLACED_PROMPT,
+			
+			if (printEnabled) {
+				System.out.println(String.format(Constants.PLACED_PROMPT,
 					placed.toString(), placedX, placedY));
+			}
 			nextTurn();
 		}
 					

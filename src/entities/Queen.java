@@ -4,6 +4,11 @@ import commons.Constants;
 import commons.Context;
 import game.ChessBoard;
 
+/**
+ * Concrete class representing a Queen chess piece
+ * 
+ * @author Stephen Montes De Oca
+ */
 public class Queen extends ChessPiece {
 
 	public Queen(boolean isWhite) {
