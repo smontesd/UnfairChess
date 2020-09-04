@@ -1,5 +1,4 @@
 import javax.swing.JFrame;
-import commons.Constants;
 import game.ChessBoard;
 
 /**
@@ -8,6 +7,8 @@ import game.ChessBoard;
  * @author Stephen Montes De Oca
  */
 public class UnfairChess {
+	// Class variables
+	public static final String FRAME_TITLE = "Unfair Chess";
 	
 	
 	/**
@@ -16,7 +17,7 @@ public class UnfairChess {
 	 * @param args - String of command line arguments
 	 */
 	public static void main(String[] args) {
-		JFrame frame = new JFrame(Constants.FRAME_TITLE);
+		JFrame frame = new JFrame(FRAME_TITLE);
 	    frame.getContentPane().add(new ChessBoard());
 	    frame.pack();
 	    frame.setVisible(true);

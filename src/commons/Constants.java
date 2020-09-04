@@ -4,7 +4,6 @@ public class Constants {
 	// Unfair Chess constants
 	public static final int BOARD_WIDTH = 800;
 	public static final int BOARD_HEIGHT = 800;
-	public static final String FRAME_TITLE = "Unfair Chess";
 	
 	// Chess Board constants
 	public static final String BACKGROUND = "src/images/chessboard.png";

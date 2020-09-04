@@ -166,6 +166,52 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		// TODO: get next context from set of values
 	}
 	
+	public void flipBoard() {
+		// iterating over each row
+		for (int y = 0; y < Constants.SIZE; y++) {
+			// iterating over the first half of columns
+			for (int x = 0; x < Constants.SIZE/2; x++) {
+				ChessPiece piece = board[y][x];
+				ChessPiece toSwap = board[y][Constants.SIZE - x];
+				
+				// Checking if a swap is needed
+				if (piece == null && 
+						(toSwap == null || toSwap.isWhite() != currentTurnWhite)) {
+							continue;
+				} else if (piece.isWhite() != currentTurnWhite &&
+						(toSwap == null || toSwap.isWhite() != currentTurnWhite)) {
+							continue;
+				}
+				
+				// Swapping
+				board[y][x] = toSwap;
+				board[y][Constants.SIZE - x] = piece;
+			}
+		}
+	}
+	
+	public void swapRooksAndBishops() {
+		// iterating over each row
+		for (int y = 0; y < Constants.SIZE; y++) {
+			// iterating over each column
+			for (int x = 0; x < Constants.SIZE; x++) {
+				ChessPiece piece = board[y][x];
+				
+				if (piece == null || piece.isWhite() != currentTurnWhite) {
+					continue;
+				}
+				
+				if (piece instanceof Rook) {
+					// turning rook into a bishop
+					board[y][x] = new Bishop(currentTurnWhite);
+				} else if (piece instanceof Bishop) {
+					// turning bishop into a rook
+					board[y][x] = new Rook(currentTurnWhite);
+				}
+			}
+		}
+	}
+	
 	// setters and getters
 	public ChessPiece getPiece(int x, int y) {
 		if (x < 0 || x >= Constants.SIZE || y < 0 || y >= Constants.SIZE) {
