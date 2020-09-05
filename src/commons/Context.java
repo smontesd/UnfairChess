@@ -16,7 +16,7 @@ public enum Context {
 	BISHOP_GHOST (Constants.BISHOP_GHOST_RULE),
 	ROOK_GHOST (Constants.ROOK_GHOST_RULE),
 	BOARD_FLIP (Constants.BOARD_FLIP),
-	RANDOM_SWAP (Constants.RANDOM_SWAP);
+	NEUTRAL_RULE (Constants.NEUTRAL_RULE);
 	
 	private final String description;
 	

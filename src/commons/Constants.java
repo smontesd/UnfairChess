@@ -44,10 +44,12 @@ public class Constants {
 	public static final int SHORT_L = 1;
 	public static final int FIRST_MOVE = 2;
 	public static final int EXTENSION = 2;
+	public static final int KING_SIDE = 2;
+	public static final int QUEEN_SIZE = -3;
 	
 	// Context constants
 	public static final String FORWARDS_RULE = "On this turn, chess pieces can only move forwards";
-	public static final String BACKWARDS_RULE = "On this turn, chess pieces can only move backwards";
+	public static final String BACKWARDS_RULE = "On this turn, chess pieces can only move backwards (does not apply to pawns)";
 	public static final String QKNIGHT_RULE = "For one turn, the queen gains the ability to perform a knight move";
 	public static final String PAWN_FWD_RULE = "For one turn, pawn's can only attack forwards";
 	public static final String PAWN_EXT_RULE = "For one turn, a pawn can attack with a 2 tile diagonal scope";
@@ -55,5 +57,5 @@ public class Constants {
 	public static final String BOARD_FLIP = "For the rest of the game, the board gets flipped on one side";
 	public static final String BISHOP_GHOST_RULE = "On this turn, bishops can pass through ally chess pieces";
 	public static final String ROOK_GHOST_RULE = "On this turn, rooks can pass through ally chess pieces";
-	public static final String RANDOM_SWAP = "Two pieces are swapped, this change is permanent";
+	public static final String NEUTRAL_RULE = "For one turn, the rules of chess remain the same";
 }

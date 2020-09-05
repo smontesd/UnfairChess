@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import commons.Constants;
@@ -42,9 +43,8 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		setPreferredSize(size);
 	    setMinimumSize(size);
 	    setMaximumSize(size);
-	    setSize(size);
+		setSize(size);
 	    setLayout(null);
-	    
 	    addMouseListener(this);
 	    
 	    if (PRINT_ENABLED) {
@@ -87,27 +87,36 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 	}
 	
 	public void paintComponent(Graphics g) {
-		  g.drawImage(background, 0, 0, null);
+		// Drawing chess board diagram
+		g.drawImage(background, 0, 0, null);
+		
+		Graphics2D g2d = (Graphics2D)g;
 		  
-		  Graphics2D g2d = (Graphics2D)g;
-		  
-		  for (int i = 0; i < Constants.SIZE; i++) {
-			  for (int j = 0; j < Constants.SIZE; j++) {
-				  if (board[i][j] == null) {
-					  continue;
-				  }
+		// Drawing each individual chess piece
+		for (int i = 0; i < Constants.SIZE; i++) {
+			for (int j = 0; j < Constants.SIZE; j++) {
+				if (board[i][j] == null) {
+					continue;
+				}
 				  
-				  board[i][j].draw(g2d, j * 100, i * 100);
-			  }
-		  }
+				board[i][j].draw(g2d, j * 100, i * 100);
+			}
+		}
 	}
 	
 	public boolean move(int xStart, int yStart, int xEnd, int yEnd) {
+		// Checking if move is within boundaries
+		if (xStart < 0 || xStart >= Constants.SIZE || yStart < 0 ||
+				yStart >= Constants.SIZE ) {
+			return false;
+		} else if (xEnd < 0 || xEnd >= Constants.SIZE || yEnd < 0 ||
+				yEnd >= Constants.SIZE) {
+			return false;
+		}
+		
 		ChessPiece selected = board[yStart][xStart];
-		ChessPiece claimed = board[yEnd][xEnd];
 		
 		if (selected == null || selected.isWhite() != currentTurnWhite) {
-			// Consider adding context sabotage rule (also check mouseListener)
 			return false;
 		}
 		
@@ -115,7 +124,8 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 			return false;
 		}
 		
-		// TODO: Add Castling move
+		// Moving chess piece onto final location
+		ChessPiece claimed = board[yEnd][xEnd];
 		board[yEnd][xEnd] = board[yStart][xStart];
 		board[yStart][xStart] = null;
 		
@@ -127,21 +137,59 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		if (selected instanceof Pawn) {
 			Pawn p = (Pawn)selected;
 			
-			if (p.getFirstMove() == false) {
+			if (!p.getFirstMove()) {
 				p.completeFirstMove();
 			}
 			
 			// TODO: Add code when pawn lands on other side of board
+		} else if (selected instanceof Rook) {
+			Rook r = (Rook)selected;
+			
+			if (!r.getFirstMove()) {
+				r.completeFirstMove();
+			}
+		} else if (selected instanceof King) {
+			King k = (King)selected;
+			
+			int dX = xEnd - xStart;
+			
+			if (!k.getFirstMove()) {
+				k.completeFirstMove();
+				
+				// Checking for castling move
+				if (dX == Constants.KING_SIDE) {
+					ChessPiece corner = board[yStart][xEnd+1];
+					
+					if (corner instanceof Rook) {
+						Rook r = (Rook) corner;
+						
+						r.completeFirstMove();
+						board[yStart][xEnd-1] = r;
+						board[yStart][xEnd+1] = null;
+					}
+				} else if (dX == Constants.QUEEN_SIZE) {
+					ChessPiece corner = board[yStart][xEnd-1];
+					
+					if (corner instanceof Rook) {
+						Rook r = (Rook) corner;
+						
+						r.completeFirstMove();
+						board[yStart][xEnd+1] = r;
+						board[yStart][xEnd-1] = null;
+					}
+				}
+			}
 		}
 		
 		if (claimed instanceof King) {
-			// game is over since king was claimed
+			// game is over since king was taken
 			isGameOver = true;
 			
 			if (PRINT_ENABLED) {
 				System.out.println(currentTurnWhite ? "White wins!" : "Black wins");
 			}
 		}
+		
 		// TODO: Add stalemate method or pass turn
 		return true;
 	}
@@ -158,12 +206,29 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 					"White's turn" : "Black's turn");
 		}
 		
-		// TODO: get next rule and update board based on context
+		// TODO: get next context
+		// nextContext();
 		// TODO: check for draw
 	}
 	
 	public void nextContext() {
-		// TODO: get next context from set of values
+		// Each rule has an equal chance of occurring
+		Context[] rules = Context.values();
+		int randIndex = new Random().nextInt(rules.length);
+		
+		rule = rules[randIndex];
+		
+		if (PRINT_ENABLED) {
+			System.out.println(rule.toString());
+		}
+		
+		if (rule == Context.BOARD_FLIP) {
+			flipBoard();
+		} else if (rule == Context.BISHOP_ROOK_SWAP) {
+			swapRooksAndBishops();
+		}
+		
+		// TODO: random swap rule
 	}
 	
 	public void flipBoard() {
@@ -172,7 +237,7 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 			// iterating over the first half of columns
 			for (int x = 0; x < Constants.SIZE/2; x++) {
 				ChessPiece piece = board[y][x];
-				ChessPiece toSwap = board[y][Constants.SIZE - x];
+				ChessPiece toSwap = board[y][Constants.SIZE-1-x];
 				
 				// Checking if a swap is needed
 				if (piece == null && 
@@ -248,6 +313,10 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		int x = Math.floorDiv(e.getX(), 100);
 		int y = Math.floorDiv(e.getY(), 100);
 		
+		if (x < 0 || x >= Constants.SIZE || y < 0 || y >= Constants.SIZE) {
+			return;
+		}
+		
 		ChessPiece selected = board[y][x];
 		
 		if (selected == null || selected.isWhite() != currentTurnWhite) {
@@ -271,9 +340,10 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		if (isGameOver) {
 			return;
 		}
+		
 		int placedX = Math.floorDiv(e.getX(), 100);
 		int placedY = Math.floorDiv(e.getY(), 100);
-					
+		
 		if (move(selectedX, selectedY, placedX, placedY)) {
 			nextTurn();
 		}

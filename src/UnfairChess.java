@@ -16,12 +16,12 @@ public class UnfairChess {
 	 * 
 	 * @param args - String of command line arguments
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		JFrame frame = new JFrame(FRAME_TITLE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.getContentPane().add(new ChessBoard());
 	    frame.pack();
 	    frame.setVisible(true);
 	    frame.setResizable(false);
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

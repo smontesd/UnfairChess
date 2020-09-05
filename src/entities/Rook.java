@@ -10,6 +10,7 @@ import game.ChessBoard;
  * @author Stephen Montes De Oca
  */
 public class Rook extends ChessPiece {
+	private boolean firstMove;
 	
 	public Rook(boolean isWhite) {
 		super(isWhite);
@@ -19,6 +20,14 @@ public class Rook extends ChessPiece {
 		} else {
 			setImage(Constants.ROOK_BLACK);
 		}
+	}
+	
+	public boolean getFirstMove() {
+		return firstMove;
+	}
+	
+	public void completeFirstMove() {
+		firstMove = true;
 	}
 	
 	@Override
