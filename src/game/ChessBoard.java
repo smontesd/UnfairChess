@@ -9,16 +9,25 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import commons.Constants;
 import commons.Context;
 import entities.*;
 
+/**
+ * This class represents a Chess Board for the Unfair Chess java program.
+ * It is used as a display for the board and its pieces, allowing for playing
+ * using mouse events.
+ * 
+ * @author Stephen Montes De Oca
+ */
 public class ChessBoard extends JPanel implements MouseListener, MouseMotionListener {
-	// for debugging
+	// For debugging purposes
 	private static final boolean PRINT_ENABLED = true;
-	
-	// instance variables
+	private static final boolean CONTEXT_ENABLED = true;
+	// Instance variables
 	private final Image background;
 	private ChessPiece[][] board;
 	private int selectedX;
@@ -26,6 +35,10 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 	private Context rule;
 	private boolean currentTurnWhite;
 	private boolean isGameOver;
+	// GUI Components
+	private JButton passButton;
+	private JButton resignButton;
+	private JLabel turnContext;
 	
 	/**
 	 * Default class constructor: sets up a new ChessBoard
@@ -46,6 +59,9 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		setSize(size);
 	    setLayout(null);
 	    addMouseListener(this);
+	    createPassButton();
+	    createResignButton();
+	    createTurnLabel();
 	    
 	    if (PRINT_ENABLED) {
 	    	System.out.println("White's turn");
@@ -185,12 +201,15 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 			// game is over since king was taken
 			isGameOver = true;
 			
+			if (turnContext != null) {
+				turnContext.setText(currentTurnWhite ? "White wins!" : "Black wins!");
+			}
+			
 			if (PRINT_ENABLED) {
-				System.out.println(currentTurnWhite ? "White wins!" : "Black wins");
+				System.out.println(currentTurnWhite ? "White wins!" : "Black wins!");
 			}
 		}
 		
-		// TODO: Add stalemate method or pass turn
 		return true;
 	}
 	
@@ -206,9 +225,15 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 					"White's turn" : "Black's turn");
 		}
 		
-		// TODO: get next context
-		// nextContext();
-		// TODO: check for draw
+		if (CONTEXT_ENABLED) {
+			nextContext();
+		}
+		
+		if (turnContext != null) {
+			String turnText = currentTurnWhite ? "White" : "Black";
+			turnContext.setText(String.format(
+					"%s's turn: %s",turnText,getContext()));
+		}
 	}
 	
 	public void nextContext() {
@@ -222,13 +247,12 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 			System.out.println(rule.toString());
 		}
 		
+		// Updating board on a particular context
 		if (rule == Context.BOARD_FLIP) {
 			flipBoard();
 		} else if (rule == Context.BISHOP_ROOK_SWAP) {
 			swapRooksAndBishops();
 		}
-		
-		// TODO: random swap rule
 	}
 	
 	public void flipBoard() {
@@ -240,9 +264,10 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 				ChessPiece toSwap = board[y][Constants.SIZE-1-x];
 				
 				// Checking if a swap is needed
-				if (piece == null && 
-						(toSwap == null || toSwap.isWhite() != currentTurnWhite)) {
-							continue;
+				if (piece == null) {
+					if (toSwap == null || toSwap.isWhite() != currentTurnWhite) {
+						continue;
+					}
 				} else if (piece.isWhite() != currentTurnWhite &&
 						(toSwap == null || toSwap.isWhite() != currentTurnWhite)) {
 							continue;
@@ -250,7 +275,7 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 				
 				// Swapping
 				board[y][x] = toSwap;
-				board[y][Constants.SIZE - x] = piece;
+				board[y][Constants.SIZE-1-x] = piece;
 			}
 		}
 	}
@@ -277,6 +302,26 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		}
 	}
 	
+	public void resign() {
+		if (isGameOver) {
+			return;
+		}
+		
+		isGameOver = true;
+		
+		if (PRINT_ENABLED) {
+			System.out.print(String.format("%s resigns", currentTurnWhite ? "White" : "Black"));
+		}
+		
+		if (turnContext != null) {
+			String winner = currentTurnWhite ? "White" : "Black";
+			String loser = currentTurnWhite ? "Black" : "White";
+			turnContext.setText(String.format("%s resigns, %s wins!",winner,loser));
+		}
+		
+		currentTurnWhite = !currentTurnWhite;
+	}
+	
 	// setters and getters
 	public ChessPiece getPiece(int x, int y) {
 		if (x < 0 || x >= Constants.SIZE || y < 0 || y >= Constants.SIZE) {
@@ -300,6 +345,33 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 	
 	public void setContext(Context rule) {
 		this.rule = rule;
+	}
+	
+	// GUI Component: Setters and Getters
+	public JButton getPassButton() {
+		return this.passButton;
+	}
+	
+	public void createPassButton() {
+		passButton = new JButton("Pass Turn");
+		passButton.addActionListener(new PassAction(this));
+	}
+	
+	public JButton getResignButton() {
+		return this.resignButton;
+	}
+	
+	public void createResignButton() {
+		resignButton = new JButton("Resign");
+		resignButton.addActionListener(new ResignAction(this));
+	}
+	
+	public JLabel getJLabel() {
+		return turnContext;
+	}
+	
+	public void createTurnLabel() {
+		turnContext = new JLabel("White Turn: First move start");	
 	}
 
 	@Override
