@@ -9,7 +9,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import commons.Constants;
@@ -26,7 +25,7 @@ import entities.*;
 public class ChessBoard extends JPanel implements MouseListener, MouseMotionListener {
 	// For debugging purposes
 	private static final boolean PRINT_ENABLED = true;
-	private static final boolean CONTEXT_ENABLED = true;
+	private static final boolean CONTEXT_ENABLED = false;
 	// Instance variables
 	private final Image background;
 	private ChessPiece[][] board;
@@ -36,8 +35,6 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 	private boolean currentTurnWhite;
 	private boolean isGameOver;
 	// GUI Components
-	private JButton passButton;
-	private JButton resignButton;
 	private JLabel turnContext;
 	
 	/**
@@ -59,8 +56,8 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		setSize(size);
 	    setLayout(null);
 	    addMouseListener(this);
-	    createPassButton();
-	    createResignButton();
+//	    createPassButton();
+//	    createResignButton();
 	    createTurnLabel();
 	    
 	    if (PRINT_ENABLED) {
@@ -231,8 +228,14 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		
 		if (turnContext != null) {
 			String turnText = currentTurnWhite ? "White" : "Black";
-			turnContext.setText(String.format(
-					"%s's turn: %s",turnText,getContext()));
+			
+			if (CONTEXT_ENABLED) {
+				turnContext.setText(String.format(
+						"%s's turn: %s",turnText,getContext()));
+			} else {
+				turnContext.setText(String.format("%s's turn",
+						currentTurnWhite ? "White" : "Black"));
+			}
 		}
 	}
 	
@@ -345,25 +348,6 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 	
 	public void setContext(Context rule) {
 		this.rule = rule;
-	}
-	
-	// GUI Component: Setters and Getters
-	public JButton getPassButton() {
-		return this.passButton;
-	}
-	
-	public void createPassButton() {
-		passButton = new JButton("Pass Turn");
-		passButton.addActionListener(new PassAction(this));
-	}
-	
-	public JButton getResignButton() {
-		return this.resignButton;
-	}
-	
-	public void createResignButton() {
-		resignButton = new JButton("Resign");
-		resignButton.addActionListener(new ResignAction(this));
 	}
 	
 	public JLabel getJLabel() {

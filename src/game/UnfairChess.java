@@ -18,8 +18,6 @@ import javax.swing.border.LineBorder;
 public class UnfairChess extends JFrame {
 	// Class variables
 	public static final String FRAME_TITLE = "Unfair Chess";
-	public static final int FRAME_WIDTH = 900;
-	public static final int FRAME_HEIGHT = 800;
 	// instance variables
 	private ChessBoard board;
 	
@@ -44,9 +42,12 @@ public class UnfairChess extends JFrame {
 		
 		// JPanel bottom
 		JPanel botPanel = new JPanel();
-		JButton jbutton = board.getPassButton();
-		JButton jbutton2 = board.getResignButton();
-		
+		JButton jbutton = new JButton("Pass Turn");
+		JButton jbutton2 = new JButton("Resign");
+		jbutton.addActionListener(new PassAction(board));
+		jbutton2.addActionListener(new ResignAction(board));
+		 
+		// Adding elements to panel
 		botPanel.setBorder(new LineBorder(Color.DARK_GRAY, 3));
 		botPanel.add(jbutton);
 		botPanel.add(jbutton2);
