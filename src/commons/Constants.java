@@ -50,12 +50,12 @@ public class Constants {
 	// Context constants
 	public static final String FORWARDS_RULE = "On this turn, chess pieces can only move forwards";
 	public static final String BACKWARDS_RULE = "On this turn, chess pieces can only move backwards (does not apply to pawns)";
-	public static final String QKNIGHT_RULE = "For one turn, the queen gains the ability to perform a knight move";
-	public static final String PAWN_FWD_RULE = "For one turn, pawns attack forwards";
-	public static final String PAWN_EXT_RULE = "For one turn, a pawn can attack with a 2 tile diagonal scope";
-	public static final String BISHOP_ROOK_SWAP = "For the rest of the game, bishops and rooks are swapped";
-	public static final String BOARD_FLIP = "For the rest of the game, the board gets flipped on one side";
+	public static final String QKNIGHT_RULE = "On this turn, the queen gains the ability to perform a knight move";
+	public static final String PAWN_FWD_RULE = "On this turn, pawns gain the ability to attack forwards";
+	public static final String PAWN_EXT_RULE = "On this turn, a pawn attacks have a 2 tile diagonal scope";
+	public static final String BISHOP_ROOK_SWAP = "Your bishops and rooks get swapped";
+	public static final String BOARD_FLIP = "The board is flipped horizontally for the current player";
 	public static final String BISHOP_GHOST_RULE = "On this turn, bishops can pass through ally chess pieces";
 	public static final String ROOK_GHOST_RULE = "On this turn, rooks can pass through ally chess pieces";
-	public static final String NEUTRAL_RULE = "For one turn, the rules of chess remain the same";
+	public static final String NEUTRAL_RULE = "On this turn, the rules of chess remain the same";
 }
