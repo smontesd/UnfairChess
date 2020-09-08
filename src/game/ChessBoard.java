@@ -4,12 +4,17 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import commons.Constants;
 import commons.Context;
@@ -25,7 +30,7 @@ import entities.*;
 public class ChessBoard extends JPanel implements MouseListener, MouseMotionListener {
 	// For debugging purposes
 	private static final boolean PRINT_ENABLED = true;
-	private static final boolean CONTEXT_ENABLED = false;
+	private static final boolean CONTEXT_ENABLED = true;
 	// Instance variables
 	private final Image background;
 	private ChessPiece[][] board;
@@ -56,8 +61,6 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 		setSize(size);
 	    setLayout(null);
 	    addMouseListener(this);
-//	    createPassButton();
-//	    createResignButton();
 	    createTurnLabel();
 	    
 	    if (PRINT_ENABLED) {
@@ -154,7 +157,32 @@ public class ChessBoard extends JPanel implements MouseListener, MouseMotionList
 				p.completeFirstMove();
 			}
 			
-			// TODO: Add code when pawn lands on other side of board
+			if ((!p.isWhite() && yEnd == Constants.SIZE-1) ||
+				(p.isWhite() && yEnd == 0)) {
+					repaint();
+					JPanel panel = new JPanel();
+					JButton qbutton = new JButton("Queen");
+					JButton rbutton = new JButton("Rook");
+					JButton bbutton = new JButton("Bishop");
+					JButton kbutton = new JButton("Knight");
+					qbutton.addActionListener(
+						new PromotionAction(this, new Queen(p.isWhite()), xEnd, yEnd));
+					rbutton.addActionListener(
+							new PromotionAction(this, new Rook(p.isWhite()), xEnd, yEnd));
+					bbutton.addActionListener(
+							new PromotionAction(this, new Bishop(p.isWhite()), xEnd, yEnd));
+					kbutton.addActionListener(
+							new PromotionAction(this, new Knight(p.isWhite()), xEnd, yEnd));
+					
+					panel.add(qbutton);
+					panel.add(rbutton);
+					panel.add(bbutton);
+					panel.add(kbutton);
+					
+					Object[] options = {qbutton, rbutton, bbutton, kbutton};
+					JOptionPane.showOptionDialog(this, panel, "Pawn Promotion",
+							JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
+			}
 		} else if (selected instanceof Rook) {
 			Rook r = (Rook)selected;
 			
