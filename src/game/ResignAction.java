@@ -16,6 +16,12 @@ public class ResignAction implements ActionListener {
 		this.board = board;
 	}
 
+	/**
+	 * This method allows for the Graphical User Interface to call
+	 * the resign method to end the game
+	 * 
+	 * @param e - ActionEvent object that called the action to perform
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (board == null) {

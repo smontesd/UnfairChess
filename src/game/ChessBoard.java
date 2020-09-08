@@ -4,15 +4,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,7 +24,8 @@ import entities.*;
  * 
  * @author Stephen Montes De Oca
  */
-public class ChessBoard extends JPanel implements MouseListener, MouseMotionListener {
+public class ChessBoard extends JPanel implements
+										MouseListener, MouseMotionListener {
 	// For debugging purposes
 	private static final boolean PRINT_ENABLED = true;
 	private static final boolean CONTEXT_ENABLED = true;

@@ -16,8 +16,6 @@ import javax.swing.border.LineBorder;
 public class UnfairChess extends JFrame {
 	// Class variables
 	public static final String FRAME_TITLE = "Unfair Chess";
-	// instance variables
-	private ChessBoard board;
 	
 	public UnfairChess(String title) {
 		super(title);

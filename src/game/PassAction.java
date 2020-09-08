@@ -12,6 +12,11 @@ import java.awt.event.ActionListener;
 public class PassAction implements ActionListener {
 	private ChessBoard board;
 	
+	/**
+	 * Pass Action constructor
+	 * 
+	 * @param board - chess board to call the next turn
+	 */
 	public PassAction(ChessBoard board) {
 		this.board = board;
 	}
