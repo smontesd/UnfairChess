@@ -24,10 +24,11 @@ import entities.*;
  * 
  * @author Stephen Montes De Oca
  */
+@SuppressWarnings("serial")
 public class ChessBoard extends JPanel implements
 										MouseListener, MouseMotionListener {
 	// For debugging purposes
-	private static final boolean PRINT_ENABLED = true;
+	private static final boolean PRINT_ENABLED = false;
 	private static final boolean CONTEXT_ENABLED = true;
 	// Instance variables
 	private final Image background;

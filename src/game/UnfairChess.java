@@ -13,6 +13,7 @@ import javax.swing.border.LineBorder;
  * 
  * @author Stephen Montes De Oca
  */
+@SuppressWarnings("serial")
 public class UnfairChess extends JFrame {
 	// Class variables
 	public static final String FRAME_TITLE = "Unfair Chess";
@@ -60,6 +61,7 @@ public class UnfairChess extends JFrame {
 	 * @param args - String of command line arguments
 	 */
 	public static void main(String[] args) {
+		@SuppressWarnings("unused")
 		UnfairChess game = new UnfairChess(FRAME_TITLE);
 	}
 }
