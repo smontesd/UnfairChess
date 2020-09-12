@@ -53,7 +53,8 @@ public class ChessBoard extends JPanel implements
 		
 		setFocusable(true);
 		
-		Dimension size = new Dimension(background.getWidth(null), background.getHeight(null));
+		Dimension size = new Dimension(background.getWidth(null),
+									   background.getHeight(null));
 		setPreferredSize(size);
 	    setMinimumSize(size);
 	    setMaximumSize(size);

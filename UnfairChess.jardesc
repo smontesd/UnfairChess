@@ -11,6 +11,8 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <file path="/UnfairChess/.project"/>
+        <file path="/UnfairChess/.classpath"/>
         <javaElement handleIdentifier="=UnfairChess/src"/>
     </selectedElements>
 </jardesc>
